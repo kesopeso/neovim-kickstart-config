@@ -170,6 +170,13 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- [[ My settings ]]
+vim.opt.tabstop = 4 -- display tabs as 4 spaces
+vim.opt.expandtab = true -- use spaces instead of tabs
+vim.opt.softtabstop = 4 -- use 4 spaces for tabs (expandtab must be true)
+vim.opt.smartindent = true -- try guessing indentation automatically
+vim.opt.shiftwidth = 4 -- use 4 spaces for indent
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -776,7 +783,7 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
