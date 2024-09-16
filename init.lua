@@ -1023,5 +1023,17 @@ require('lazy').setup({
   },
 })
 
+-- TRICKS AND TIPS!!!!!
+-- jumping to previous next location (inside file or buffers) <C-o> (prev) <C-i> (next)
+-- use it when you go to definition, or when you open a new file and want to go back to the previous one
+--
+-- previous buffer <C-6> or :b# this will switch between two last buffers back and forward
+--
+-- if you accidently made some changes to the file and want to go back to the last saved version
+-- just execute :e!
+--
+-- lazy plugin manager, to update everything just quit and reenter neovim, or run command :Lazy sync
+-- ====================
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
