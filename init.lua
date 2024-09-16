@@ -175,6 +175,13 @@ do
   -- instead raise a dialog asking if you wish to save the current file(s)
   -- See `:help 'confirm'`
   vim.o.confirm = true
+
+  -- [[ My settings ]]
+  vim.opt.tabstop = 4 -- display tabs as 4 spaces
+  vim.opt.expandtab = true -- use spaces instead of tabs
+  vim.opt.softtabstop = 4 -- use 4 spaces for tabs (expandtab must be true)
+  vim.opt.smartindent = true -- try guessing indentation automatically
+  vim.opt.shiftwidth = 4 -- use 4 spaces for indent
 end
 
 -- ============================================================
@@ -786,8 +793,9 @@ do
     format_on_save = function(bufnr)
       -- You can specify filetypes to autoformat on save here:
       local enabled_filetypes = {
-        -- lua = true,
-        -- python = true,
+        lua = true,
+        python = true,
+        go = true,
       }
       if enabled_filetypes[vim.bo[bufnr].filetype] then
         return { timeout_ms = 500 }
@@ -805,7 +813,7 @@ do
       -- python = { "isort", "black" },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
-      -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      javascript = { "prettierd", "prettier", stop_after_first = true },
     },
   }
 
