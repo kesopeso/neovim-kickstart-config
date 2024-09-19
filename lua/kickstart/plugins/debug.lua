@@ -16,6 +16,9 @@ return {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
 
+    -- Adds virtual preview text next to the variable for quicker debugging
+    'theHamsta/nvim-dap-virtual-text',
+
     -- Required dependency for nvim-dap-ui
     'nvim-neotest/nvim-nio',
 
@@ -40,6 +43,7 @@ return {
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+    local dapvirtualtext = require 'nvim-dap-virtual-text'
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
@@ -97,6 +101,8 @@ return {
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+    dapvirtualtext.setup()
 
     -- Install golang specific config
     require('dap-go').setup {
