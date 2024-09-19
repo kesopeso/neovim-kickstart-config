@@ -9,6 +9,7 @@
 vim.pack.add {
   'https://github.com/mfussenegger/nvim-dap',
   'https://github.com/rcarriga/nvim-dap-ui',
+  'https://github.com/theHamsta/nvim-dap-virtual-text',
   'https://github.com/nvim-neotest/nvim-nio',
   'https://github.com/mason-org/mason.nvim',
   'https://github.com/jay-babu/mason-nvim-dap.nvim',
@@ -27,6 +28,7 @@ vim.keymap.set('n', '<F7>', function() require('dapui').toggle() end, { desc = '
 
 local dap = require 'dap'
 local dapui = require 'dapui'
+local dapvirtualtext = require 'nvim-dap-virtual-text'
 
 require('mason-nvim-dap').setup {
   -- Makes a best effort to setup the various debuggers with
@@ -84,6 +86,8 @@ dapui.setup {
 dap.listeners.after.event_initialized['dapui_config'] = dapui.open
 dap.listeners.before.event_terminated['dapui_config'] = dapui.close
 dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+dapvirtualtext.setup()
 
 -- Install golang specific config
 require('dap-go').setup {
