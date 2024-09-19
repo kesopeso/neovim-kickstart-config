@@ -1033,6 +1033,8 @@ require('lazy').setup({
 -- just execute :e!
 --
 -- lazy plugin manager, to update everything just quit and reenter neovim, or run command :Lazy sync
+--
+-- search and replace, run command :s/what_to_look_for/what_to_replace_with/gc (g - global, c - with confirmation one by one (y/n))
 -- ====================
 
 -- The line beneath this is called `modeline`. See `:help modeline`
