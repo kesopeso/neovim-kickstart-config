@@ -83,7 +83,6 @@ return {
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
-    local dapvirtualtext = require 'nvim-dap-virtual-text'
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
@@ -140,7 +139,7 @@ return {
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-    dapvirtualtext.setup()
+    require('nvim-dap-virtual-text').setup {}
 
     -- Install golang specific config
     require('dap-go').setup {
@@ -150,5 +149,21 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    -- Create special entries for dap.configurations.go
+    -- This way I can run files that are not located in the workspace root folder
+    local new_dap_go_config = {
+      {
+        name = 'Delve: Debug focused buffer',
+        program = function()
+          return vim.fn.expand '%:p'
+        end,
+        cwd = '${workspaceFolder}',
+        request = 'launch',
+        type = 'delve',
+      },
+    }
+    vim.list_extend(new_dap_go_config, dap.configurations.go or {})
+    dap.configurations.go = new_dap_go_config
   end,
 }
