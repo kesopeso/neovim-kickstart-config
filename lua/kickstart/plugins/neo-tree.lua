@@ -12,4 +12,13 @@ return {
   keys = {
     { '<leader>e', ':Neotree toggle<CR>', desc = 'NeoTree toggle', noremap = true, silent = true },
   },
+  config = function()
+    require('neo-tree').setup {
+      filesystem = {
+        follow_current_file = {
+          enabled = true,
+        },
+      },
+    }
+  end,
 }
