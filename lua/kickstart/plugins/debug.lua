@@ -31,6 +31,7 @@ return {
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
     { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
+    { '<F6>', function() require('dap-go').debug_test() end, desc = 'GO Debug: Test under cursor' },
     { '<F1>', function() require('dap').step_into() end, desc = 'Debug: Step Into' },
     { '<F2>', function() require('dap').step_over() end, desc = 'Debug: Step Over' },
     { '<F3>', function() require('dap').step_out() end, desc = 'Debug: Step Out' },
