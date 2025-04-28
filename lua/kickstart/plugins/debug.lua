@@ -1,3 +1,4 @@
+-- debug.lua
 --
 -- Shows how to use the DAP plugin to debug your code.
 --
@@ -18,8 +19,8 @@ vim.pack.add {
 -- Basic debugging keymaps, feel free to change to your liking!
 vim.keymap.set('n', '<F5>', function() require('dap').continue() end, { desc = 'Debug: Start/Continue' })
 vim.keymap.set('n', '<F6>', function() require('dap-go').debug_test() end, { desc = 'GO Debug: Test under cursor' })
-vim.keymap.set('n', '<F1>', function() require('dap').step_into() end, { desc = 'Debug: Step Into' })
-vim.keymap.set('n', '<F2>', function() require('dap').step_over() end, { desc = 'Debug: Step Over' })
+vim.keymap.set('n', '<F2>', function() require('dap').step_into() end, { desc = 'Debug: Step Into' })
+vim.keymap.set('n', '<F1>', function() require('dap').step_over() end, { desc = 'Debug: Step Over' })
 vim.keymap.set('n', '<F3>', function() require('dap').step_out() end, { desc = 'Debug: Step Out' })
 vim.keymap.set('n', '<leader>b', function() require('dap').toggle_breakpoint() end, { desc = 'Debug: Toggle Breakpoint' })
 vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, { desc = 'Debug: Set Breakpoint' })
@@ -87,8 +88,6 @@ dap.listeners.after.event_initialized['dapui_config'] = dapui.open
 dap.listeners.before.event_terminated['dapui_config'] = dapui.close
 dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-dapvirtualtext.setup()
-
 -- Install golang specific config
 require('dap-go').setup {
   delve = {
@@ -111,3 +110,6 @@ local new_dap_go_config = {
 }
 vim.list_extend(new_dap_go_config, dap.configurations.go or {})
 dap.configurations.go = new_dap_go_config
+
+-- Initialize virtual text plugin
+dapvirtualtext.setup()
