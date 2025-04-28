@@ -1,3 +1,4 @@
+-- debug.lua
 --
 -- Shows how to use the DAP plugin to debug your code.
 --
@@ -15,9 +16,6 @@ return {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
 
-    -- Adds virtual preview text next to the variable for quicker debugging
-    'theHamsta/nvim-dap-virtual-text',
-
     -- Required dependency for nvim-dap-ui
     'nvim-neotest/nvim-nio',
 
@@ -27,6 +25,69 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+
+    -- Adds virtual preview text next to the variable for quicker debugging
+    'theHamsta/nvim-dap-virtual-text',
+  },
+  keys = {
+    -- Basic debugging keymaps, feel free to change to your liking!
+    {
+      '<F5>',
+      function()
+        require('dap').continue()
+      end,
+      desc = 'Debug: Start/Continue',
+    },
+    {
+      '<F2>',
+      function()
+        require('dap').step_into()
+      end,
+      desc = 'Debug: Step Into',
+    },
+    {
+      '<F1>',
+      function()
+        require('dap').step_over()
+      end,
+      desc = 'Debug: Step Over',
+    },
+    {
+      '<F3>',
+      function()
+        require('dap').step_out()
+      end,
+      desc = 'Debug: Step Out',
+    },
+    {
+      '<leader>b',
+      function()
+        require('dap').toggle_breakpoint()
+      end,
+      desc = 'Debug: Toggle Breakpoint',
+    },
+    {
+      '<leader>B',
+      function()
+        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+      end,
+      desc = 'Debug: Set Breakpoint',
+    },
+    -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
+    {
+      '<F7>',
+      function()
+        require('dapui').toggle()
+      end,
+      desc = 'Debug: See last session result.',
+    },
+    {
+      '<F6>',
+      function()
+        require('dap-go').debug_test()
+      end,
+      desc = 'Debug: Go test under cursor',
+    },
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -101,8 +162,6 @@ return {
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-    require('nvim-dap-virtual-text').setup {}
-
     -- Install golang specific config
     require('dap-go').setup {
       delve = {
@@ -112,8 +171,7 @@ return {
       },
     }
 
-    -- Create special entries for dap.configurations.go
-    -- This way I can run files that are not located in the workspace root folder
+    -- This is for running files that are not located in the workspace root folder
     local new_dap_go_config = {
       {
         name = 'Delve: Debug focused buffer',
@@ -127,5 +185,8 @@ return {
     }
     vim.list_extend(new_dap_go_config, dap.configurations.go or {})
     dap.configurations.go = new_dap_go_config
+
+    -- Initialize virtual text plugin
+    require('nvim-dap-virtual-text').setup {}
   end,
 }

@@ -13,26 +13,20 @@ return {
   },
   lazy = false,
   keys = {
-    { '<leader>e', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
   },
   ---@module 'neo-tree'
   ---@type neotree.Config
   opts = {
     filesystem = {
+      follow_current_file = {
+        enabled = true,
+      },
       window = {
         mappings = {
-          ['<leader>e'] = 'close_window',
+          ['\\'] = 'close_window',
         },
       },
     },
   },
-  config = function()
-    require('neo-tree').setup {
-      filesystem = {
-        follow_current_file = {
-          enabled = true,
-        },
-      },
-    }
-  end,
 }
