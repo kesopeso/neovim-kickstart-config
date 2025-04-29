@@ -95,21 +95,16 @@ require('dap-go').setup {
     -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
     detached = vim.fn.has 'win32' == 0,
   },
-}
-
--- Create special entries for dap.configurations.go
--- This way I can run files that are not located in the workspace root folder
-local new_dap_go_config = {
-  {
-    name = 'Delve: Debug focused buffer',
-    program = function() return vim.fn.expand '%:p' end,
-    cwd = '${workspaceFolder}',
-    request = 'launch',
-    type = 'delve',
+  dap_configurations = {
+    {
+      type = 'go',
+      name = 'Debug focused buffer',
+      request = 'launch',
+      program = function() return vim.fn.expand '%:p' end,
+      cwd = '${workspaceFolder}',
+    },
   },
 }
-vim.list_extend(new_dap_go_config, dap.configurations.go or {})
-dap.configurations.go = new_dap_go_config
 
 -- Initialize virtual text plugin
 dapvirtualtext.setup()
