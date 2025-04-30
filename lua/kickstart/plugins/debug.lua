@@ -153,17 +153,6 @@ return {
         -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
         detached = vim.fn.has 'win32' == 0,
       },
-      dap_configurations = {
-        {
-          type = 'go',
-          name = 'Debug focused buffer',
-          request = 'launch',
-          program = function()
-            return vim.fn.expand '%:p'
-          end,
-          cwd = '${workspaceFolder}',
-        },
-      },
     }
 
     -- Initialize virtual text plugin
