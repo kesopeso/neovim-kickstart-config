@@ -18,10 +18,12 @@ cd ..
 rm -rf neovim
 ```
 
-Updating kickstart config, requires fetching new kickstart commits, merging them with my fork and resolving merge conflicts:
+Updating kickstart config, requires fetching new kickstart commits,
+rebasing all my commits on top of the latest kickstart configuration
+and resolving conflicts along the way.
 ```bash
 git fetch kickstart
-git merge kickstart/master
+git rebase kickstart/master
 ```
 
 ## Introduction
