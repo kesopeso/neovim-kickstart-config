@@ -171,11 +171,11 @@ vim.o.scrolloff = 10
 vim.o.confirm = true
 
 -- [[ My settings ]]
-vim.opt.tabstop = 4 -- display tabs as 4 spaces
-vim.opt.expandtab = true -- use spaces instead of tabs
-vim.opt.softtabstop = 4 -- use 4 spaces for tabs (expandtab must be true)
-vim.opt.smartindent = true -- try guessing indentation automatically
-vim.opt.shiftwidth = 4 -- use 4 spaces for indent
+vim.o.tabstop = 4 -- display tabs as 4 spaces
+vim.o.expandtab = true -- use spaces instead of tabs
+vim.o.softtabstop = 4 -- use 4 spaces for tabs (expandtab must be true)
+vim.o.smartindent = true -- try guessing indentation automatically
+vim.o.shiftwidth = 4 -- use 4 spaces for indent
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
