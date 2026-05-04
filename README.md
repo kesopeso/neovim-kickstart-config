@@ -2,10 +2,15 @@
 
 ## My notes
 
-When updating to a new Neovim version, first uninstall the current version by running:
+Update neovim installation first:
 ```bash
+# this removes old installation if it was added manually
 sudo rm -rf /usr/local/bin/nvim
 sudo rm -rf /usr/local/share/nvim
+# this adds new installation via repository, which is easier to update later on
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo apt update
+sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim
 ```
 
 Then install new version by cloning neovim repository, building from source and running installation:
