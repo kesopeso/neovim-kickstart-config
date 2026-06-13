@@ -99,7 +99,11 @@ do
   vim.g.maplocalleader = ' '
 
   -- Set to true if you have a Nerd Font installed and selected in the terminal
-  vim.g.have_nerd_font = false
+  vim.g.have_nerd_font = true
+
+  -- Tell neovim to disable netrw
+  vim.g.loaded_netrw = 1
+  vim.g.loaded_netrwPlugin = 1
 
   -- [[ Setting options ]]
   --  See `:help vim.o`
@@ -171,6 +175,13 @@ do
   -- instead raise a dialog asking if you wish to save the current file(s)
   -- See `:help 'confirm'`
   vim.o.confirm = true
+
+  -- [[ My settings ]]
+  vim.opt.tabstop = 4 -- display tabs as 4 spaces
+  vim.opt.expandtab = true -- use spaces instead of tabs
+  vim.opt.softtabstop = 4 -- use 4 spaces for tabs (expandtab must be true)
+  vim.opt.smartindent = true -- try guessing indentation automatically
+  vim.opt.shiftwidth = 4 -- use 4 spaces for indent
 end
 
 -- ============================================================
@@ -660,6 +671,13 @@ do
   vim.pack.add { gh 'j-hui/fidget.nvim' }
   require('fidget').setup {}
 
+  -- Better typescript LSP. Replacement for typescript-language-server
+  vim.pack.add {
+    gh 'pmizio/typescript-tools.nvim',
+    gh 'nvim-lua/plenary.nvim',
+  }
+  require('typescript-tools').setup()
+
   --  This function gets run when an LSP attaches to a particular buffer.
   --    That is to say, every time a new file is opened that is associated with
   --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
@@ -734,7 +752,7 @@ do
   ---@type table<string, vim.lsp.Config>
   local servers = {
     -- clangd = {},
-    -- gopls = {},
+    gopls = {},
     -- pyright = {},
     -- tsc = {},
     --
@@ -743,6 +761,8 @@ do
     --
     -- But for many setups, the LSP (`rust_analyzer`) will work just fine
     -- rust_analyzer = {},
+
+    intelephense = {},
 
     stylua = {}, -- Used to format Lua code
 
@@ -804,6 +824,19 @@ do
   local ensure_installed = vim.tbl_keys(servers or {})
   vim.list_extend(ensure_installed, {
     -- You can add other tools here that you want Mason to install
+    'bash-language-server',
+    'delve',
+    'dockerfile-language-server',
+    'gopls',
+    'lua-language-server',
+    'markdownlint',
+    'nomicfoundation-solidity-language-server',
+    'prettierd',
+    'stylua',
+    'tree-sitter-cli',
+    'yaml-language-server',
+    'golines',
+    'php-cs-fixer',
   })
 
   require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -826,8 +859,14 @@ do
     format_on_save = function(bufnr)
       -- You can specify filetypes to autoformat on save here:
       local enabled_filetypes = {
-        -- lua = true,
-        -- python = true,
+        lua = true,
+        python = true,
+        go = true,
+        javascript = true,
+        typescript = true,
+        javascriptreact = true,
+        typescriptreact = true,
+        php = true,
       }
       if enabled_filetypes[vim.bo[bufnr].filetype] then
         return { timeout_ms = 500 }
@@ -845,7 +884,20 @@ do
       -- python = { "isort", "black" },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
-      -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      typescript = { 'prettierd', 'prettier', stop_after_first = true },
+      javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      json = { 'prettierd', 'prettier', stop_after_first = true },
+      jsonc = { 'prettierd', 'prettier', stop_after_first = true },
+      html = { 'prettierd', 'prettier', stop_after_first = true },
+      go = { 'golines' },
+      php = { 'php_cs_fixer' },
+    },
+    formatters = {
+      golines = {
+        prepend_args = { '--max-len=120' },
+      },
     },
   }
 
@@ -948,7 +1000,31 @@ do
   vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
-  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+  local parsers = {
+    'bash',
+    'c',
+    'css',
+    'diff',
+    'go',
+    'gomod',
+    'html',
+    'javascript',
+    'jsdoc',
+    'json',
+    'lua',
+    'luadoc',
+    'markdown',
+    'markdown_inline',
+    'query',
+    'regex',
+    'tsx',
+    'typescript',
+    'vim',
+    'vimdoc',
+    'yaml',
+    'php',
+    'phpdoc',
+  }
   require('nvim-treesitter').install(parsers)
 
   ---@param buf integer
@@ -1014,16 +1090,16 @@ do
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug'
-  -- require 'kickstart.plugins.indent_line'
-  -- require 'kickstart.plugins.lint'
-  -- require 'kickstart.plugins.autopairs'
-  -- require 'kickstart.plugins.neo-tree'
+  require 'kickstart.plugins.debug'
+  require 'kickstart.plugins.indent_line'
+  require 'kickstart.plugins.lint'
+  require 'kickstart.plugins.autopairs'
+  require 'kickstart.plugins.neo-tree'
 
   -- NOTE: You can add your own plugins, configuration, etc. in `lua/custom/plugins/*.lua`.
   --
   -- For independent modules, uncomment the convenience loader:
-  -- require 'custom.plugins'
+  require 'custom.plugins'
   --
   -- `custom.plugins` automatically loads files from that directory, but their
   -- order is unspecified. If plugins depend on each other, keep them in the same
@@ -1034,6 +1110,20 @@ do
   -- require 'custom.plugins.ui'
   -- require 'custom.plugins.git'
 end
+
+-- [[ Tricks and tips ]]
+-- jumping to previous/next location (inside file or buffers) <C-o> (prev) <C-i> (next)
+-- use it when you go to definition or when you open a new file and want to go back to the previous one
+--
+-- previous buffer <C-6> or :b#
+-- this will switch between last two buffers back and forth
+--
+-- execute :e! to revert accidental changes to the last saved version of the file
+-- basically same as :q! and then opening the file again
+--
+-- to update everything with lazy plugin manager just quit and reenter neovim or run :Lazy sync
+--
+-- for search and replace run command :s/search_term/replace_term/gc (g - global, c - one by one confirmation)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
