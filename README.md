@@ -1,5 +1,36 @@
 # kickstart.nvim
 
+## My notes
+
+Update neovim installation first:
+```bash
+# this removes old installation if it was added manually
+sudo rm -rf /usr/local/bin/nvim
+sudo rm -rf /usr/local/share/nvim
+# this adds new installation via repository, which is easier to update later on
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo apt update
+sudo apt install make gcc ripgrep fd-find tree-sitter-cli unzip git xclip neovim
+```
+
+Then install new version by cloning neovim repository, building from source and running installation:
+```bash
+git clone https://github.com/neovim/neovim.git
+cd neovim
+make CMAKE_BUILD_TYPE=RelWithDebugInfo CMAKE_INSTALL_PREFIX=/usr/local
+sudo make install
+cd ..
+rm -rf neovim
+```
+
+Updating kickstart config, requires fetching new kickstart commits,
+rebasing all my commits on top of the latest kickstart configuration
+and resolving conflicts along the way.
+```bash
+git fetch kickstart
+git rebase kickstart/master
+```
+
 ## Introduction
 
 A starting point for Neovim that is:
