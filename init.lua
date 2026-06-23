@@ -789,6 +789,7 @@ do
     'stylua',
     'tree-sitter-cli',
     'yaml-language-server',
+    'golines',
   })
 
   require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -842,6 +843,12 @@ do
       json = { 'prettierd', 'prettier', stop_after_first = true },
       jsonc = { 'prettierd', 'prettier', stop_after_first = true },
       html = { 'prettierd', 'prettier', stop_after_first = true },
+      go = { 'golines' },
+    },
+    formatters = {
+      golines = {
+        prepend_args = { '--max-len=120' },
+      },
     },
   }
 
